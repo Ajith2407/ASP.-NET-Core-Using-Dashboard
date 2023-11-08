@@ -1,0 +1,242 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">MIS Dashboard</h1>
+                </div><!-- /.col -->
+
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+                <div class="col">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>@ViewBag.EC</h3>
+
+                            <p>Enrollement Success </p>
+                        </div>
+                        <div class="icon">
+                            <i class='fas fa-check-double'></i>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col">
+                    <!-- small box -->
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>@ViewBag.EF</h3>
+                            <p>Enrollement Failure</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3>@ViewBag.VS</h3>
+                            <p>Verification Success</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-check-double"></i>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col">
+                    <!-- small box -->
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>@ViewBag.VF</h3>
+
+                            <p>Verification Failure</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col">
+                    <!-- small box -->
+                    <div class="small-box bg-light">
+                        <div class="inner">
+                            <h3>00</h3>
+                            <p>False Acceptance</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+
+
+            <!-- /.row -->
+            <div class="row">
+                <!-- Left col -->
+                <section class="col-6 connectedSortable">
+                    <!-- Custom tabs (Charts with tabs)-->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-chart-pie mr-1"></i>
+                                MIS Report
+                            </h3>
+
+                        </div><!-- /.card-header -->
+                        <div class="table-data" style="padding:10px;">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Serial Number</th>
+                                        <th scope="col-3">Description</th>
+                                        <th scope="col">Count</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Total Enrollment</td>
+                                        <td>@ViewBag.EC</td>
+
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Verification Success</td>
+                                        <td>@ViewBag.VS</td>
+
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Verification Failed</td>
+                                        <td>@ViewBag.VF</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">4</th>
+                                        <td>Failed Acceptance</td>
+                                        <td>00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <!-- /.card -->
+
+                </section>
+                <!-- /.Left col -->
+                <!-- right col (Bar chart )-->
+                <section class="col-6 connectedSortable">
+
+
+                    <div class="card card-primary card-outline">
+
+                        <div class="card-header">
+
+                            <h3 class="card-title">
+
+                                <i class="far fa-chart-bar"></i>
+
+                                Bar Chart
+
+                            </h3>
+
+
+
+                            <div class="card-tools">
+
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+
+                                    <i class="fas fa-minus"></i>
+
+                                </button>
+
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+
+                                    <i class="fas fa-times"></i>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div id="chartContainer" style="height: 236.5px; width: 103%;"></div>
+
+
+                        </div>
+                        
+                </section>
+
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+    <!-- Main row -->
+    <!-- /.row (main row) -->
+
+</div>
+<!-- /.content-wrapper -->
+<!-- footer-->
+<footer class="main-footer">
+    <strong>Copyright &copy; 2023 <a href="https://kaizenvoiz.com/">Kaizen Voize</a>.</strong>
+    developed by <b>Kaizen Voiz</b>
+    <div class="float-right d-none d-sm-inline-block">
+        <b>Version</b> 0.0.1
+    </div>
+</footer>
+<script>
+    window.onload = function () {
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+           
+            data: [{
+                type: "column",
+                
+                indexLabel: "{y}",
+                dataPoints: @Html.Raw(ViewBag.DataPoints)
+                                                                }]
+        });
+
+        function updateChart() {
+           
+            
+            chart.render();
+        };
+        updateChart();
+
+        setInterval(function () { updateChart() }, 2000);
+
+    }
+</script>
+
+
+
+

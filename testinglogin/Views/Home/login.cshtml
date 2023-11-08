@@ -1,0 +1,91 @@
+﻿@model login1
+
+@{
+     Layout = "~/Views/Shared/bootstrapuses.cshtml"; 
+}
+
+
+<body style="background-color:#E7E6E4">
+
+    <header style="text-align: center;">
+
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+
+            <div class="container-fluid">
+
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">kaizen secure voiz</a>
+
+                </div>
+        </nav>
+
+    </header>
+
+    <div class="container">
+
+    <div class="card bg-gray shadow-lg rounded" style="max-width: 400px; margin: 0 auto;">
+
+        <div class="card-body">
+
+            <div class="text-center">
+
+                <img src="~/image/kaizen logo.png" alt="Logo" class="mb-4" width="200" height="80">
+
+            </div>
+
+           
+
+            @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "form" }))
+
+            {
+
+              
+                <div class="form-group">
+
+                    
+                   
+                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control",placeholder = "Username" })
+
+                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+
+                </div>
+                <br />
+
+                <div class="form-group">
+
+                   
+
+                        @Html.PasswordFor(model => model.Password, new { @class = "form-control",placeholder = "Password" })
+
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                </div>
+
+                <br>
+
+                <div><button type="submit" class="form-control btn btn-primary btn-lg btn-block">Submit</button></div>
+
+
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                    <ul class="navbar-nav flex-grow-1">
+
+                        <li class="nav-item ml-auto">
+
+                                <a class="btn btn-light text-success font-weight-bold" asp-area="" asp-controller="Home" asp-action="registration" id="logout-button">Register</a>
+                        </li>
+                        
+                    </ul>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+

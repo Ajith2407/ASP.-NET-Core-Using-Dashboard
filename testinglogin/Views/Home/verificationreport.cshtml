@@ -1,0 +1,77 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col">
+                    <h1 class="m-0">Verification Report</h1>
+                    </div><!-- /.col -->
+                <button class="btn" id="excelbtn" style="border: 1px solid #000;"> Excel</button>
+
+                <div class="input-group col-3 justify-content-end">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Search</span>
+                    </div>
+                    <input type="search" id="form1" class="form-control" placeholder="Search" />
+                    <div class="input-group-append">
+                       
+                        <button type="button" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+              
+
+                <table class="table table-striped table-bordered" id="excelbtn">
+                    <thead>
+                        <tr>
+                            <th> date</th>
+                            &nbsp;
+                            <th>customerId</th>
+                            <th>uniqueId </th>
+                            <th>Verification1 </th>
+                            <th>captchaId</th>
+                            <th>captchaReturn</th>
+                            <th>digit </th>
+                            <th>Verification2 </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var vr in Model) // Loop through each Employee object in the model
+                        {
+                            <tr>
+                                <td>@vr.DateTime</td>
+                                <td>@vr.CustomerID</td>
+                                <td>@vr.UniqueID</td>
+                                <td>@vr.Verification1</td>
+                                <td>@vr.CaptchaID</td>
+                                <td>@vr.CaptchaReturn</td>
+                                <td>@vr.Digit</td>
+                                <td>@vr.Verification2</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div><!-- /.row -->
+
+        </div><!-- /.container-fluid -->
+
+    </div>
+</div>
+<script>
+    document.getElementById("excelbtn").addEventListener("click", function () {
+        var table = document.querySelector("table");
+        var sheet = XLSX.utils.table_to_sheet(table);
+        var workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, sheet, "Sheet1");
+
+        // Create a blob with the XLSX workbook and save it as a file
+        XLSX.writeFile(workbook, "data.xlsx");
+    });
+</script>

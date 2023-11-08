@@ -1,0 +1,72 @@
+﻿@model Registration
+@{
+    Layout = "~/Views/Shared/bootstrapuses.cshtml";
+}
+
+<body>
+    <header style="text-align: center;">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">kaizen secure voiz</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="card bg-gray shadow-lg rounded" style="max-width: 700px; margin: 0 auto;">
+            <div class="card-body">
+                <div class="text-center">
+                    <img src="~/image/kaizen logo.png" alt="Logo" class="mb-4" width="200" height="80">
+                </div>
+                <h2 class="text-center">Registration page</h2>
+
+                @using (Html.BeginForm("Registration", "home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Username, new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.Username, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.password, new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.password, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Confirm_password, new { @class = "control-label" })
+                                @Html.PasswordFor(model => model.Confirm_password, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Confirm_password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.email, new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.phone, new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.phone, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="padding: 10px;">
+                        <div class="text-center">
+                            <input type="submit" value="Click to register" class="btn btn-default btn btn-outline-success" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</body>
