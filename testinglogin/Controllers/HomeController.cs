@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Data;
 using System.Diagnostics;
-
+using System.Diagnostics.Eventing.Reader;
 using testinglogin.Models;
 using static testinglogin.Models.Chart;
 
@@ -31,7 +31,38 @@ namespace testinglogin.Controllers
         {
             return View();
         }
-
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
+        [HttpPost]
+        public IActionResult Login(login1 model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (!string.IsNullOrEmpty(model.Username) && !string.IsNullOrEmpty(model.Password))
+                {
+                    if (IsValidUser(model.Username, model.Password))
+                    {
+                        HttpContext.Session.SetString("Logged", "true");
+                        return RedirectToAction("Dashboard");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid username or password.");
+                }
+            }
+            return View();
+        }
+        private bool IsValidUser(string username, string password)
+        {
+            string query = $"SELECT * FROM[loginerdata].[dbo].[loginbase] where USERNAME =  '{username}' and PASSWORD = '{password}'; ";
+            DataTable dataTable = DBHelpers.ExecuteQuery(query);
+            if (dataTable.Rows.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public IActionResult Dashboard()
         {
             if (HttpContext.Session.GetString("Logged") == "true")
@@ -67,174 +98,180 @@ namespace testinglogin.Controllers
                 ViewBag.EF = Enrollfail;
                 ViewBag.VS = verifisuccess;
                 ViewBag.VF = verififail;
+
+                return View();
             }
-            return View();
+            else
+            {
+                return RedirectToAction("login");
+            }
+        
+
         }
 
         public IActionResult DataReport()
         {
-            DataTable dataTable = new DataTable();
-
-            List<datareport1> allocatelist = new List<datareport1>();
-
-            string query = "Select * from  [loginerdata].[dbo].[DataReport]";
-
-            dataTable = DBHelpers.ExecuteQuery(query);
-
-            foreach (DataRow dataallocate in dataTable.Rows)
-
+            if (HttpContext.Session.GetString("Logged") == "true")
             {
+                DataTable dataTable = new DataTable();
 
-                datareport1 verify2 = new datareport1();
+                List<datareport1> allocatelist = new List<datareport1>();
 
-                verify2.Date = (string)dataallocate["Date"];
+                string query = "Select * from  [loginerdata].[dbo].[DataReport]";
 
-                verify2.Enrollment = (int)dataallocate["Enrollment"];
+                dataTable = DBHelpers.ExecuteQuery(query);
 
-                verify2.EnrollmentFailure = (int)dataallocate["EnrollmentFailure"];
+                foreach (DataRow dataallocate in dataTable.Rows)
 
-                verify2.LoginAttempt = (string)dataallocate["LoginAttempt"];
+                {
 
-                verify2.Loginsuccess = (int)dataallocate["Loginsuccess"];
+                    datareport1 verify2 = new datareport1();
 
-                verify2.Loginmodel = (string)dataallocate["Loginmodel"];
+                    verify2.Date = (string)dataallocate["Date"];
 
-                verify2.TotalSuccess = (int)dataallocate["TotalSuccess"];
+                    verify2.Enrollment = (int)dataallocate["Enrollment"];
 
-                verify2.LoginFailed = (string)dataallocate["LoginFailed"];
+                    verify2.EnrollmentFailure = (int)dataallocate["EnrollmentFailure"];
 
-                allocatelist.Add(verify2);
+                    verify2.LoginAttempt = (string)dataallocate["LoginAttempt"];
 
+                    verify2.Loginsuccess = (int)dataallocate["Loginsuccess"];
+
+                    verify2.Loginmodel = (string)dataallocate["Loginmodel"];
+
+                    verify2.TotalSuccess = (int)dataallocate["TotalSuccess"];
+
+                    verify2.LoginFailed = (string)dataallocate["LoginFailed"];
+
+                    allocatelist.Add(verify2);
+
+                }
+                return View(allocatelist);
             }
-            return View(allocatelist);
+
+            else
+            {
+              return  RedirectToAction("login");
+            }
+
         }
 
 
         public IActionResult Enrollmentreport()
         {
-            DataTable dataTable = new DataTable();
 
-            List<Enrollmentdetail> allocatelist1 = new List<Enrollmentdetail>();
-
-            string query = "Select * from  [loginerdata].[dbo].[Enrollmentdata]";
-
-            dataTable = DBHelpers.ExecuteQuery(query);
-
-            foreach (DataRow dataallocate in dataTable.Rows)
-
+            if (HttpContext.Session.GetString("Logged") == "true")
             {
+                DataTable dataTable = new DataTable();
 
-                Enrollmentdetail enroll = new Enrollmentdetail();
+                List<Enrollmentdetail> allocatelist1 = new List<Enrollmentdetail>();
 
-                enroll.date = (string)dataallocate["date"];
+                string query = "Select * from  [loginerdata].[dbo].[Enrollmentdata]";
 
-                enroll.Customer_Id = (string)dataallocate["Customer_id"];
+                dataTable = DBHelpers.ExecuteQuery(query);
 
-                enroll.Uniqueid = (string)dataallocate["Uniqueid"];
+                foreach (DataRow dataallocate in dataTable.Rows)
 
-                enroll.EnrollmentId = (string)dataallocate["EnrollmentId"];
+                {
+
+                    Enrollmentdetail enroll = new Enrollmentdetail();
+
+                    enroll.date = (string)dataallocate["date"];
+
+                    enroll.Customer_Id = (string)dataallocate["Customer_id"];
+
+                    enroll.Uniqueid = (string)dataallocate["Uniqueid"];
+
+                    enroll.EnrollmentId = (string)dataallocate["EnrollmentId"];
 
 
-                allocatelist1.Add(enroll);
+                    allocatelist1.Add(enroll);
+
+                }
+                return View(allocatelist1);
 
             }
-            return View(allocatelist1);
+            else
+            {
+                return RedirectToAction("login");
+            }
         }
 
         public IActionResult verificationreport()
         {
-
-
-            DataTable dataTable = new DataTable();
-
-            List<verification> alist = new List<verification>();
-
-            string query = "Select * from  [loginerdata].[dbo].[Verificationdata]";
-
-            dataTable = DBHelpers.ExecuteQuery(query);
-
-            foreach (DataRow ds in dataTable.Rows)
-
+            if (HttpContext.Session.GetString("Logged") == "true")
             {
 
-                verification verify = new verification();
 
-                verify.DateTime = (string)ds["DateTime"];
+                DataTable dataTable = new DataTable();
 
-                verify.CustomerID = (string)ds["CustomerID"];
+                List<verification> alist = new List<verification>();
 
-                verify.UniqueID = (string)ds["UniqueID"];
+                string query = "Select * from  [loginerdata].[dbo].[Verificationdata]";
 
-                verify.Verification1 = (string)ds["Verification1"];
+                dataTable = DBHelpers.ExecuteQuery(query);
 
-                verify.CaptchaID = (string)ds["CaptchaID"];
+                foreach (DataRow ds in dataTable.Rows)
 
-                verify.CaptchaReturn = (string)ds["CaptchaReturn"];
+                {
 
-                verify.Digit = (string)ds["Digit"];
+                    verification verify = new verification();
 
-                verify.Verification2 = (string)ds["Verification2"];
+                    verify.DateTime = (string)ds["DateTime"];
 
-                alist.Add(verify);
+                    verify.CustomerID = (string)ds["CustomerID"];
+
+                    verify.UniqueID = (string)ds["UniqueID"];
+
+                    verify.Verification1 = (string)ds["Verification1"];
+
+                    verify.CaptchaID = (string)ds["CaptchaID"];
+
+                    verify.CaptchaReturn = (string)ds["CaptchaReturn"];
+
+                    verify.Digit = (string)ds["Digit"];
+
+                    verify.Verification2 = (string)ds["Verification2"];
+
+                    alist.Add(verify);
+
+                }
+                return View(alist);
 
             }
-            return View(alist);
+            else
+            {
+                return RedirectToAction("login");
+            }
         }
         [HttpPost]
         public IActionResult Enrollmentreport(string StartDate,string EndDate)
         
         {
-            DateTime DStart=Convert.ToDateTime(StartDate);
-            DateTime DEnd = Convert.ToDateTime(EndDate);
-            string Start = DStart.ToString("dd'-'M'-'yyyy");
-            string End = DEnd.ToString("dd'-'M'-'yyyy");
-            DataTable dt = new DataTable();
-            string query = $"SELECT * from Enrollmentdata WHERE date BETWEEN '{Start}' AND '{End}'";
-            dt = DBHelpers.ExecuteQuery(query);
-            List<Enrollmentdetail> En = new List<Enrollmentdetail>();
-            foreach(DataRow dr in dt.Rows)
-            {
-             Enrollmentdetail er = new Enrollmentdetail();
-                er.date = (string)dr["date"];
-                er.Customer_Id = (string)dr["Customer_Id"];
-                er.Uniqueid = (string)dr["Uniqueid"];
-                er.EnrollmentId = (string)dr["EnrollmentId"];
-                En.Add(er);
-            }
            
-            return View(En);
-        }
-
-            [HttpPost]
-        public IActionResult Login(login1 model)
-        {
-            if (ModelState.IsValid)
-            {
-                if (!string.IsNullOrEmpty(model.Username) && !string.IsNullOrEmpty(model.Password)){
-                    if (IsValidUser(model.Username, model.Password))
-                    {
-                        HttpContext.Session.SetString("Logged","true");
-                        return RedirectToAction("Dashboard");
-                    }
-                }
-                else
+                DateTime DStart = Convert.ToDateTime(StartDate);
+                DateTime DEnd = Convert.ToDateTime(EndDate);
+                string Start = DStart.ToString("dd'-'M'-'yyyy");
+                string End = DEnd.ToString("dd'-'M'-'yyyy");
+                DataTable dt = new DataTable();
+                string query = $"SELECT * from Enrollmentdata WHERE date BETWEEN '{Start}' AND '{End}'";
+                dt = DBHelpers.ExecuteQuery(query);
+                List<Enrollmentdetail> En = new List<Enrollmentdetail>();
+                foreach (DataRow dr in dt.Rows)
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid username or password.");
+                    Enrollmentdetail er = new Enrollmentdetail();
+                    er.date = (string)dr["date"];
+                    er.Customer_Id = (string)dr["Customer_Id"];
+                    er.Uniqueid = (string)dr["Uniqueid"];
+                    er.EnrollmentId = (string)dr["EnrollmentId"];
+                    En.Add(er);
                 }
-            }
-            return View();
+
+                return View(En);
+
+           
         }
-        private bool IsValidUser(string username, string password)
-        {
-            string query = $"SELECT * FROM[loginerdata].[dbo].[loginbase] where USERNAME =  '{username}' and PASSWORD = '{password}'; ";
-            DataTable dataTable = DBHelpers.ExecuteQuery(query);
-            if (dataTable.Rows.Count > 0)
-            {
-                return true;
-            }
-            return false;
-        }
-      
+       
         public IActionResult Privacy()
         {
             return View();

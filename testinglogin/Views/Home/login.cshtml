@@ -36,26 +36,16 @@
 
             @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "form" }))
 
-            {
-
-              
-                <div class="form-group">
-
-                    
-                   
-                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control",placeholder = "Username" })
-
+            {             
+                <div class="form-group">             
+                    @Html.TextBoxFor(model => model.Username, new { @class = "form-control",placeholder = "Username" })
                     @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
 
                 </div>
                 <br />
 
                 <div class="form-group">
-
-                   
-
-                        @Html.PasswordFor(model => model.Password, new { @class = "form-control",placeholder = "Password" })
-
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control",placeholder = "Password" })
                     @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
