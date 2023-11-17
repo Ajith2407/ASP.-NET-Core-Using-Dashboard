@@ -9,6 +9,11 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">MIS Dashboard</h1>
+
+                    <div id="dateTimeOutput"></div>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <div id="sessionTimeRemaining"></div>
                 </div><!-- /.col -->
 
             </div><!-- /.row -->
@@ -237,6 +242,15 @@
         setInterval(function () { updateChart() }, 2000);
 
     }
+    // Create a new Date object representing the current date and time
+    var currentDate = new Date();
+
+
+    // Display the formatted date and time on the HTML page
+    var outputDiv = document.getElementById("dateTimeOutput");
+    outputDiv.innerHTML = "Log In: " + currentDate;
+
+    
 </script>
 
 

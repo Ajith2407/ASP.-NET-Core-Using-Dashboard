@@ -5,7 +5,7 @@
         public string DateTime { get; set; }
         public string CustomerID { get; set; }
         public string UniqueID { get; set; }
-        public string Verification1 { get; set; }
+        public double Verification1 { get; set; }
         public string CaptchaID { get; set; }
         public string CaptchaReturn { get; set; }
         public string Digit { get; set; }

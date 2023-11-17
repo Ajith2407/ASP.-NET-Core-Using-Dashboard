@@ -16,12 +16,12 @@
                     </div><!-- /.col -->
 
 
-                <button id="buttonpdf">Generate PDF</button>
+                <button id="buttonpdf" class="btn btn-outline-danger">Generate PDF</button>
 
 
-                <button class="btn" id="excelbtn" style="border: 1px solid #000;"> Excel</button>
+                <button class=" btn btn-outline-success" id="excelbtn" style="border: 1px solid #000;"> Excel</button>
 
-              <!--  <div class="input-group col-3 justify-content-end">
+               <!--  <div class="input-group col-3 justify-content-end">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Search</span>
                     </div>
@@ -34,7 +34,7 @@
                     </div>
                 </div>
                   -->
-
+ 
               
 
                 <table class="table table-striped table-bordered" id="datatable">
@@ -124,7 +124,7 @@
 
             content: [
 
-                { text: 'Enrollment Report', style: 'header' },
+                { text: 'Verification Report', style: 'header' },
 
                 {
 
@@ -158,7 +158,7 @@
 
         };
 
-        pdfMake.createPdf(docDefinition).download(timestamp + "_Enrollment_Report.pdf");
+        pdfMake.createPdf(docDefinition).download(timestamp + "_Verification.pdf");
 
     });
 </script>

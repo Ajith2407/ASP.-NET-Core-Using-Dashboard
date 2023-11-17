@@ -2,6 +2,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container-fluid">
@@ -15,15 +17,17 @@
                             <label for="inputStartDate">Start Date</label>
                             <input name="StartDate" type="date" asp-format="{0:yyyy-MM-dd}" required />
                           </div>
-                        &nbsp;&nbsp;
+                       
                         <div class="endDate"><label for="inputEndDate">End Date</label>
                             <input name="EndDate" type="date" asp-format="{0:yyyy-MM-dd}" required/>
                         </div>
-                        &nbsp; &nbsp;
-                        <div><button formaction="Enrollmentreport">Go</button>
-                        </div>
-                    </div>
+                       
+                        <div><button formaction="Enrollmentreport" type="submit">Go</button>
+                        </div>                      
+                    </div>              
                 </form>
+
+                <button id="buttonpdf">Generate PDF</button>
 
                 <table class="table table-striped table-bordered" id="dtable">
                     <thead>

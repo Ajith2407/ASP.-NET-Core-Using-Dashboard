@@ -42,12 +42,18 @@
                     @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
 
                 </div>
-                <br />
-
+                <br/> @if (ViewBag.SuccessMessage != null)
+                        {
+                            <div class="alert alert-success">
+                                @ViewBag.SuccessMessage
+                            </div>
+                        }
+                
                 <div class="form-group">
                     @Html.PasswordFor(model => model.Password, new { @class = "form-control",placeholder = "Password" })
                     @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                       
 
                 </div>
 

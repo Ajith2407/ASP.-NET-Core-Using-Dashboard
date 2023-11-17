@@ -33,7 +33,7 @@ namespace testinglogin.Controllers
         }
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         [HttpPost]
-        public IActionResult Login(login1 model)
+        public async Task<IActionResult> LoginAsync(login1 model)
         {
             if (ModelState.IsValid)
             {
@@ -42,13 +42,18 @@ namespace testinglogin.Controllers
                     if (IsValidUser(model.Username, model.Password))
                     {
                         HttpContext.Session.SetString("Logged", "true");
+                        TempData["SuccessMessage"] = "Verification successful!";
+
+                        await Task.Delay(5000);
+                       
                         return RedirectToAction("Dashboard");
                     }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid username or password.");
+                    }
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid username or password.");
-                }
+               
             }
             return View();
         }
@@ -77,15 +82,15 @@ namespace testinglogin.Controllers
                 dt1 = DBHelpers.ExecuteQuery(query1);
                 int Enrollfail = Convert.ToInt32(dt1.Rows[0][0]);
 
-                string query3 = "select sum(TotalSuccess) from DataReport where TotalSuccess> 0";
+                string query2 = "select sum(TotalSuccess) from DataReport where TotalSuccess> 0";
                 DataTable dt2 = new DataTable();
-                dt2 = DBHelpers.ExecuteQuery(query3);
+                dt2 = DBHelpers.ExecuteQuery(query2);
                 int verifisuccess = Convert.ToInt32(dt2.Rows[0][0]);
 
-                string query4 = "select sum(Verification1) from Verificationdata where Verification1 < 70";
+                string query3 = "select Count(Verification1) from Verificationdata where Verification1 < 70";
                 DataTable dt3 = new DataTable();
                 dt3 = DBHelpers.ExecuteQuery(query3);
-                int verififail = Convert.ToInt32(dt3.Rows[0][0]);
+                double verififail = Convert.ToDouble(dt3.Rows[0][0]);
 
                 List<DataPoint> dataPoints = new List<DataPoint>();
 
@@ -98,6 +103,8 @@ namespace testinglogin.Controllers
                 ViewBag.EF = Enrollfail;
                 ViewBag.VS = verifisuccess;
                 ViewBag.VF = verififail;
+
+              
 
                 return View();
             }
@@ -223,7 +230,7 @@ namespace testinglogin.Controllers
 
                     verify.UniqueID = (string)ds["UniqueID"];
 
-                    verify.Verification1 = (string)ds["Verification1"];
+                    verify.Verification1 = (double)ds["Verification1"];
 
                     verify.CaptchaID = (string)ds["CaptchaID"];
 

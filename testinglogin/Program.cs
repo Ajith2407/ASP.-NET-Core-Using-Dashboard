@@ -5,7 +5,7 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(500);
+    options.IdleTimeout = TimeSpan.FromSeconds(600);
 });
 var app = builder.Build();
 
