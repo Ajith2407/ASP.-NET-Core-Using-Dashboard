@@ -6,36 +6,24 @@
 
 
 
-
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col">
                     <h1 class="m-0">Verification Report</h1>
-                    </div><!-- /.col -->
-
+                </div>
+                    
+                    <!-- /.col -->
+                 <div>
 
                 <button id="buttonpdf" class="btn btn-outline-danger">Generate PDF</button>
 
 
-                <button class=" btn btn-outline-success" id="excelbtn" style="border: 1px solid #000;"> Excel</button>
+                <button class=" btn btn-outline-success" id="excelbtn"> Excel</button>
 
-               <!--  <div class="input-group col-3 justify-content-end">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Search</span>
-                    </div>
-                    <input type="search" id="form1" class="form-control" placeholder="Search" />
-                    <div class="input-group-append">
-                       
-                        <button type="button" class="btn btn-primary">
-                           
-                        </button>
-                    </div>
                 </div>
-                  -->
- 
-              
+            
 
                 <table class="table table-striped table-bordered" id="datatable">
                     <thead>
@@ -157,7 +145,7 @@
             },
 
         };
-
+     
         pdfMake.createPdf(docDefinition).download(timestamp + "_Verification.pdf");
 
     });

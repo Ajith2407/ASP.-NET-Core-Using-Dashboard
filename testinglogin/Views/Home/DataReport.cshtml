@@ -12,7 +12,7 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <h1 class="m-0">Data Report</h1>
+                    <h1 class="m-0">Data Report</h1> 
                 </div>
                 <div class="datePickers d-flex justify-content-between p-1">
                     <div class="startDate">
@@ -24,15 +24,17 @@
                         <input id="inputEndDate" type="date" asp-format="{0:yyyy-MM-dd}" />
                         <button formaction="DataReport">Go</button>
 
-                    </div>               
+                    </div>             
                     
+                    <div>
+                        <button id="buttonpdf" class="btn btn-outline-danger">Generate PDF</button>
+                    <button class="btn" id="excelbtn" style="border: 1px solid #000;"> Excel</button>
+
+                    </div>
                 </div>
 
 
-                <button id="buttonpdf">Generate PDF</button>
-
-
-                <button class="btn" id="excelbtn" style="border: 1px solid #000;"> Excel</button>
+                
 
                
                
@@ -102,9 +104,21 @@
 
         const timestamp = new Date().toLocaleString().replace(/[\/\\]/g, '_');
 
+        console.log('%cPDF Generation', 'color: #2196F3; font-size: 20px; font-weight: bold;', 'background: #E3F2FD; padding: 10px;');
+
+
         const table = document.getElementById("dtable");
 
         const tableData = [];
+
+        // Your image URL
+        const imageUrl = 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngwing.com%2Fen%2Ffree-png-ifmyo&psig=AOvVaw2Wm21GfVZY-iizHWN9I8wn&ust=1700450458332000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNDZ29-Nz4IDFQAAAAAdAAAAABAE';
+
+        // Adding an image to the PDF
+        const imageDefinition = {
+            image: imageUrl,
+            width: 100,  // Adjust the width as needed
+        };
 
         for (let row of table.rows) {
 
