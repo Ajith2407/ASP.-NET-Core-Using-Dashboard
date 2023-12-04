@@ -1,5 +1,4 @@
 ﻿
-
 using Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -44,7 +43,7 @@ namespace testinglogin.Controllers
                         HttpContext.Session.SetString("Logged", "true");
                         TempData["SuccessMessage"] = "Verification successful!";
 
-                        await Task.Delay(5000);
+                        await Task.Delay(5);
                        
                         return RedirectToAction("Dashboard");
                     }
@@ -62,7 +61,7 @@ namespace testinglogin.Controllers
             string query = $"SELECT * FROM[loginerdata].[dbo].[loginbase] where USERNAME =  '{username}' and PASSWORD = '{password}'; ";
             DataTable dataTable = DBHelpers.ExecuteQuery(query);
             if (dataTable.Rows.Count > 0)
-            {
+            { 
                 return true;
             }
             return false;
@@ -72,39 +71,81 @@ namespace testinglogin.Controllers
         {
             if (HttpContext.Session.GetString("Logged") == "true")
             {
-                string query = "select sum(Enrollment) from DataReport where Enrollment > 0";
+                string query = "SELECT SUM(Enrollment) FROM DataReport WHERE Enrollment > 0 ";
                 DataTable dt = new DataTable();
                 dt = DBHelpers.ExecuteQuery(query);
                 int Totalen = Convert.ToInt32(dt.Rows[0][0]);
+
+                string query0 = "SELECT SUM(Enrollment) FROM DataReport WHERE Enrollment > 0 AND date = '21-11-2023'";
+
+
+                DataTable dt0 = new DataTable();
+                dt0 = DBHelpers.ExecuteQuery(query0);
+                int TodayTotalen = Convert.ToInt32(dt0.Rows[0][0]);
+
+
 
                 string query1 = "select sum(EnrollmentFailure) from DataReport";
                 DataTable dt1 = new DataTable();
                 dt1 = DBHelpers.ExecuteQuery(query1);
                 int Enrollfail = Convert.ToInt32(dt1.Rows[0][0]);
 
+                string query01 = "select sum(EnrollmentFailure) from DataReport Where date = '21-11-2023'";
+                DataTable dt01 = new DataTable();
+                dt01 = DBHelpers.ExecuteQuery(query01);
+                int TodayEnrollfail = Convert.ToInt32(dt01.Rows[0][0]);
+
+
+
+
                 string query2 = "select sum(TotalSuccess) from DataReport where TotalSuccess> 0";
                 DataTable dt2 = new DataTable();
                 dt2 = DBHelpers.ExecuteQuery(query2);
                 int verifisuccess = Convert.ToInt32(dt2.Rows[0][0]);
+
+                string query02 = "select sum(TotalSuccess) from DataReport where TotalSuccess > 0 AND date = '21-11-2023' ";
+                DataTable dt02 = new DataTable();
+                dt02 = DBHelpers.ExecuteQuery(query02);
+                int Todayverifisuccess = Convert.ToInt32(dt02.Rows[0][0]);
+
+
 
                 string query3 = "select Count(Verification1) from Verificationdata where Verification1 < 70";
                 DataTable dt3 = new DataTable();
                 dt3 = DBHelpers.ExecuteQuery(query3);
                 double verififail = Convert.ToDouble(dt3.Rows[0][0]);
 
+                string query03 = "select Count(Verification1) from Verificationdata where Verification1 < 70 AND DateTime= '2023-11-22 PM 01:36:18.08'";
+                DataTable dt03 = new DataTable();
+                dt03 = DBHelpers.ExecuteQuery(query03);
+                double Todayverififail = Convert.ToDouble(dt03.Rows[0][0]);
+
+
+
+
                 List<DataPoint> dataPoints = new List<DataPoint>();
 
                 dataPoints.Add(new DataPoint("Enrollment", Totalen));
-                dataPoints.Add(new DataPoint("Verification", verifisuccess));
+                dataPoints.Add(new DataPoint("Verification", verifisuccess));                
                 dataPoints.Add(new DataPoint("Verification Failure", verififail));
-                dataPoints.Add(new DataPoint("False Acceptance", 00));
+                dataPoints.Add(new DataPoint("False Acceptance", 09));
                 ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
-                ViewBag.EC = Totalen;
-                ViewBag.EF = Enrollfail;
-                ViewBag.VS = verifisuccess;
-                ViewBag.VF = verififail;
 
-              
+                ViewBag.TER = TodayTotalen;
+                ViewBag.EC = Totalen;
+
+
+                ViewBag.EF = Enrollfail;
+                ViewBag.TEF = TodayEnrollfail;
+
+                ViewBag.VS = verifisuccess;
+                ViewBag.TVS = Todayverifisuccess;
+
+
+                ViewBag.VF = verififail;
+                ViewBag.TVF = Todayverififail;
+
+
 
                 return View();
             }
@@ -204,6 +245,34 @@ namespace testinglogin.Controllers
             }
         }
 
+        [HttpPost]
+        public IActionResult Enrollmentreport(string StartDate, string EndDate)
+
+        {
+
+            DateTime DStart = Convert.ToDateTime(StartDate);
+            DateTime DEnd = Convert.ToDateTime(EndDate);
+            string Start = DStart.ToString("dd'-'M'-'yyyy");
+            string End = DEnd.ToString("dd'-'M'-'yyyy");
+            DataTable dt = new DataTable();
+            string query = $"SELECT * from Enrollmentdata WHERE date BETWEEN '{Start}' AND '{End}'";
+            dt = DBHelpers.ExecuteQuery(query);
+            List<Enrollmentdetail> En = new List<Enrollmentdetail>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                Enrollmentdetail er = new Enrollmentdetail();
+                er.date = (string)dr["date"];
+                er.Customer_Id = (string)dr["Customer_Id"];
+                er.Uniqueid = (string)dr["Uniqueid"];
+                er.EnrollmentId = (string)dr["EnrollmentId"];
+                En.Add(er);
+            }
+
+            return View(En);
+
+
+        }
+
         public IActionResult verificationreport()
         {
             if (HttpContext.Session.GetString("Logged") == "true")
@@ -252,33 +321,32 @@ namespace testinglogin.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Enrollmentreport(string StartDate,string EndDate)
-        
+        public IActionResult verificationreport(string StartDate, string EndDate)
+
         {
-           
-                DateTime DStart = Convert.ToDateTime(StartDate);
-                DateTime DEnd = Convert.ToDateTime(EndDate);
-                string Start = DStart.ToString("dd'-'M'-'yyyy");
-                string End = DEnd.ToString("dd'-'M'-'yyyy");
-                DataTable dt = new DataTable();
-                string query = $"SELECT * from Enrollmentdata WHERE date BETWEEN '{Start}' AND '{End}'";
-                dt = DBHelpers.ExecuteQuery(query);
-                List<Enrollmentdetail> En = new List<Enrollmentdetail>();
-                foreach (DataRow dr in dt.Rows)
-                {
-                    Enrollmentdetail er = new Enrollmentdetail();
-                    er.date = (string)dr["date"];
-                    er.Customer_Id = (string)dr["Customer_Id"];
-                    er.Uniqueid = (string)dr["Uniqueid"];
-                    er.EnrollmentId = (string)dr["EnrollmentId"];
-                    En.Add(er);
-                }
 
-                return View(En);
-
-           
+           // string DStart = Convert.ToDateTime(StartDate);
+           //string DEnd = Convert.ToDateTime(EndDate);
+            
+            DataTable dt = new DataTable();
+            string query = $"SELECT * from verificationdata WHERE DateTime BETWEEN '{StartDate}' AND '{EndDate}'";
+            dt = DBHelpers.ExecuteQuery(query);
+            List<verification> En = new List<verification>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                verification er = new verification();
+                er.DateTime = (string)dr["DateTime"];
+                er.CustomerID = (string)dr["CustomerID"];
+                er.UniqueID = (string)dr["UniqueId"];
+                er.Verification1 = (double)dr["Verification1"];
+                er.CaptchaID = (string)dr["CaptchaID"]; 
+                er.CaptchaReturn = (string)dr["CaptchaReturn"];
+                er.Digit = (string)dr["Digit"];
+                er.Verification2 = (string)dr["Verification2"];
+                En.Add(er);
+            }            
+            return View(En);
         }
-       
         public IActionResult Privacy()
         {
             return View();

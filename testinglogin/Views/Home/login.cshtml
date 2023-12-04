@@ -5,7 +5,7 @@
 }
 
 
-<body style="background-color:#E7E6E4">
+<body>
 
     <header style="text-align: center;">
 
@@ -29,6 +29,7 @@
             <div class="text-center">
 
                 <img src="~/image/kaizen logo.png" alt="Logo" class="mb-4" width="200" height="80">
+                    <h4 class="text-center">LOG IN </h4>
 
             </div>
 
@@ -36,12 +37,12 @@
 
             @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "form" }))
 
-            {             
-                <div class="form-group">             
-                    @Html.TextBoxFor(model => model.Username, new { @class = "form-control",placeholder = "Username" })
-                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+            {
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control custom-placeholder", placeholder = "Username" })
+                        @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                    </div>
 
-                </div>
                 <br/> @if (ViewBag.SuccessMessage != null)
                         {
                             <div class="alert alert-success">
@@ -63,13 +64,13 @@
 
 
 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between pt-3">
 
-                    <ul class="navbar-nav flex-grow-1">
+                        <ul class="navbar-nav flex-grow-1 ">
 
-                        <li class="nav-item ml-auto">
+                            <li class=" nav-item ml-auto border ">
 
-                                <a class="btn btn-light text-success font-weight-bold" asp-area="" asp-controller="Home" asp-action="registration" id="logout-button">Register</a>
+                                <a class="  btn text-success font-weight-bold border-success  " asp-area="" asp-controller="Home" asp-action="registration" id="logout-button">Register   </a>
                         </li>
                         
                     </ul>
@@ -82,6 +83,7 @@
     </div>
 
 </div>
+   
 
 </body>
 

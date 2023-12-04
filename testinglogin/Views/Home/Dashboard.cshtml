@@ -24,6 +24,9 @@
     <section class="content">
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
+
+
+
             <div class="row">
                 <div class="col">
                     <!-- small box -->
@@ -87,7 +90,84 @@
                     <!-- small box -->
                     <div class="small-box bg-light">
                         <div class="inner">
-                            <h3>00</h3>
+                            <h3>09</h3>
+                            <p>False Acceptance</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+
+
+            <p>Today date data report</p>
+            <div class="row">
+                <div class="col">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>@ViewBag.TER</h3>
+
+                            <p>Enrollement Success </p>
+                        </div>
+                        <div class="icon">
+                            <i class='fas fa-check-double'></i>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col">
+                    <!-- small box -->
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>@ViewBag.TEF</h3>
+                            <p>Enrollement Failure</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3>@ViewBag.TVS</h3>
+                            <p>Verification Success</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-check-double"></i>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col">
+                    <!-- small box -->
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>@ViewBag.TVF</h3>
+
+                            <p>Verification Failure</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col">
+                    <!-- small box -->
+                    <div class="small-box bg-light">
+                        <div class="inner">
+                            <h3>09</h3>
                             <p>False Acceptance</p>
                         </div>
                         <div class="icon">
@@ -144,7 +224,7 @@
                                     <tr>
                                         <th scope="row">4</th>
                                         <td>Failed Acceptance</td>
-                                        <td>00</td>
+                                        <td>09</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -197,6 +277,8 @@
 
 
                         </div>
+                    
+                    </div>
                         
                 </section>
 
@@ -210,14 +292,7 @@
 </div>
 <!-- /.content-wrapper -->
 <!-- footer-->
-<footer class="main-footer">
-    <strong>Copyright &copy; 2023 <a href="https://kaizenvoiz.com/">Kaizen Voize</a>.</strong>
-    developed by <b>Kaizen Voiz</b>
-    <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 0.0.1
-    </div>
-</footer>
-<!--Footer End-->
+
 
 <script>
     window.onload = function () {

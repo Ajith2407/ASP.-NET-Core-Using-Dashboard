@@ -28,7 +28,8 @@
                     
                     <div>
                         <button id="buttonpdf" class="btn btn-outline-danger">Generate PDF</button>
-                    <button class="btn" id="excelbtn" style="border: 1px solid #000;"> Excel</button>
+
+                        <button type="button" class="btn btn-outline-success" id="excelbtn">Excel</button>
 
                     </div>
                 </div>
@@ -72,15 +73,6 @@
     </div>
 </div>
 
-<!-- footer-->
-<footer class="main-footer">
-    <strong>Copyright &copy; 2023 <a href="https://kaizenvoiz.com/">Kaizen Voiz</a>.</strong>
-    developed by <b>Kaizen Voiz</b>
-    <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 0.0.1
-    </div>
-</footer>
-<!--Footer End-->
 <script>
     $(document).ready(function () {
         // $('#dtable').DataTable();
@@ -104,22 +96,13 @@
 
         const timestamp = new Date().toLocaleString().replace(/[\/\\]/g, '_');
 
-        console.log('%cPDF Generation', 'color: #2196F3; font-size: 20px; font-weight: bold;', 'background: #E3F2FD; padding: 10px;');
 
 
         const table = document.getElementById("dtable");
 
         const tableData = [];
 
-        // Your image URL
-        const imageUrl = 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pngwing.com%2Fen%2Ffree-png-ifmyo&psig=AOvVaw2Wm21GfVZY-iizHWN9I8wn&ust=1700450458332000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNDZ29-Nz4IDFQAAAAAdAAAAABAE';
-
-        // Adding an image to the PDF
-        const imageDefinition = {
-            image: imageUrl,
-            width: 100,  // Adjust the width as needed
-        };
-
+        
         for (let row of table.rows) {
 
             const rowData = [];
